@@ -1,7 +1,6 @@
 package com.glq1218.controller;
 
 
-
 import com.glq1218.domain.Result;
 import com.glq1218.domain.entity.Article;
 import com.glq1218.enums.ResultInfo;
@@ -21,6 +20,7 @@ import java.util.List;
 @RequestMapping("/article")
 public class ArticleController {
     private ArticleService articleService;
+
     @Autowired
     public void setArticleService(ArticleService articleService) {
         this.articleService = articleService;
@@ -35,9 +35,13 @@ public class ArticleController {
      * 热门文章列表
      */
     @GetMapping("/hotArticleList")
-    public Result hotArticleList(){
-        Result result = articleService.hotArticleList();
-        return result;
+    public Result hotArticleList() {
+        return articleService.hotArticleList();
+    }
+
+    @GetMapping("/articleList")
+    public Result articleList(Integer pageNum, Integer pageSize, Long categoryId) {
+        return articleService.articleList(pageNum, pageSize, categoryId);
     }
 }
 

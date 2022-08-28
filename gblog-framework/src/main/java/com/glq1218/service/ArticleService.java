@@ -13,5 +13,7 @@ import com.glq1218.domain.entity.Article;
 public interface ArticleService extends IService<Article> {
 
     Result hotArticleList();
+
+    Result articleList(Integer pageNum, Integer pageSize, Long categoryId);
 }
 

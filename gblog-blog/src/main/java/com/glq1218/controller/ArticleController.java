@@ -2,13 +2,12 @@ package com.glq1218.controller;
 
 
 import com.glq1218.domain.Result;
-import com.glq1218.domain.entity.Article;
-import com.glq1218.enums.ResultInfo;
 import com.glq1218.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * (Article)表控制层
@@ -25,11 +24,6 @@ public class ArticleController {
     public void setArticleService(ArticleService articleService) {
         this.articleService = articleService;
     }
-    //@GetMapping("/list")
-    //public Result test(){
-    //    List<Article> list = articleService.list();
-    //    return Result.success().codeAndMessage(ResultInfo.SUCCESS).data("list",list);
-    //}
 
     /**
      * 热门文章列表
@@ -39,9 +33,19 @@ public class ArticleController {
         return articleService.hotArticleList();
     }
 
+    /**
+     * 文章列表
+     */
     @GetMapping("/articleList")
     public Result articleList(Integer pageNum, Integer pageSize, Long categoryId) {
         return articleService.articleList(pageNum, pageSize, categoryId);
     }
-}
 
+    /**
+     * 文章详情
+     */
+    @GetMapping("/{id}")
+    public Result getArticleDetail(@PathVariable("id") Long id) {
+        return articleService.getArticleDetail(id);
+    }
+}

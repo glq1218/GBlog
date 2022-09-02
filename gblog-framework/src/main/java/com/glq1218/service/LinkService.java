@@ -1,6 +1,7 @@
 package com.glq1218.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.glq1218.domain.Result;
 import com.glq1218.domain.entity.Link;
 
 /**
@@ -11,5 +12,6 @@ import com.glq1218.domain.entity.Link;
  */
 public interface LinkService extends IService<Link> {
 
+    Result getAllLink();
 }
 

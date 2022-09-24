@@ -3,20 +3,19 @@ package com.glq1218.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glq1218.constants.SystemConstants;
-import com.glq1218.domain.Result;
+import com.glq1218.domain.ResponseResult;
 import com.glq1218.domain.entity.Article;
 import com.glq1218.domain.vo.CategoryVo;
 import com.glq1218.mapper.CategoryMapper;
 import com.glq1218.domain.entity.Category;
 import com.glq1218.service.ArticleService;
 import com.glq1218.service.CategoryService;
-import com.glq1218.utils.BeanCopyUtils;
+import com.glq1218.util.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +31,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     private ArticleService articleService;
 
     @Override
-    public Result getCategoryList() {
+    public ResponseResult<?> getCategoryList() {
         // 查询文章表，状态为已发布
         LambdaQueryWrapper<Article> articleQueryWrapper = new LambdaQueryWrapper<>();
         articleQueryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL);
@@ -50,7 +49,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         // 封装vo
         List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(categorys, CategoryVo.class);
 
-        return Result.success().data(categorys);
+        return ResponseResult.success(categorys);
     }
 }
 

@@ -13,17 +13,25 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @Author: glq
  * @Data: 2022/8/28 下午3:30
- * @Description: TODO
+ * @Description: Web配置
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+    /**
+     * 跨域配置
+     *
+     * @param registry CorsRegistry
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-
+        // 设置允许跨域的路径
         registry.addMapping("/**")
+                // 设置允许跨域请求的域名
                 .allowedOriginPatterns("*")
-                // 是否永续Cookie
+                // 是否允许cookie
                 .allowCredentials(true)
+                // 设置允许的请求方式
                 .allowedMethods("GET", "POST", "DELETE", "PUT")
                 // 设置允许的header属性
                 .allowedHeaders("*")
@@ -34,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * 将FastJsonHttpMessageConverter包装成HttpMessageConverter对象，并用其参与消息转换器管道
      * 列表HttpMessageConverters的初始化和Bean的生成，该方式会将得到的HttpMessageConverters中
-     * 的httpMessageConverter作为生成消息转换器管道列表的初始数据(从源码得知会早于默认转换器)，
+     * 的httpMessageConverter作为生成消息转换器管道列表的初始数据(从源码得知会早于默认转换器)
      * 因此也会早于通过实现configureMessageConverters接口向消息转换器管道列表追加转换器的方式
      *
      * @return 最终版的Http消息转换器列表对象
@@ -45,7 +53,6 @@ public class WebConfig implements WebMvcConfigurer {
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
         fastJsonConverter.setFastJsonConfig(fastJsonConfig);
-        HttpMessageConverter<?> httpMessageConverter = fastJsonConverter;
-        return new HttpMessageConverters(httpMessageConverter);
+        return new HttpMessageConverters(fastJsonConverter);
     }
 }

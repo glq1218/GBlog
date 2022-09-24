@@ -1,4 +1,4 @@
-package com.glq1218.utils;
+package com.glq1218.util;
 
 import org.springframework.beans.BeanUtils;
 

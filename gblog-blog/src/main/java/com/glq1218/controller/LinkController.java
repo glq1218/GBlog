@@ -1,6 +1,6 @@
 package com.glq1218.controller;
 
-import com.glq1218.domain.Result;
+import com.glq1218.domain.ResponseResult;
 import com.glq1218.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ public class LinkController {
     private LinkService linkService;
 
     @GetMapping("/getAllLink")
-    public Result getAllLink(){
+    public ResponseResult<?> getAllLink(){
         return linkService.getAllLink();
     }
 }

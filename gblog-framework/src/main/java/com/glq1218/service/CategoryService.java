@@ -1,7 +1,7 @@
 package com.glq1218.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.glq1218.domain.Result;
+import com.glq1218.domain.ResponseResult;
 import com.glq1218.domain.entity.Category;
 
 /**
@@ -12,6 +12,6 @@ import com.glq1218.domain.entity.Category;
  */
 public interface CategoryService extends IService<Category> {
 
-    Result getCategoryList();
+    ResponseResult<?> getCategoryList();
 }
 

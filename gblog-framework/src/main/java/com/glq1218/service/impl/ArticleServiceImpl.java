@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glq1218.constants.SystemConstants;
-import com.glq1218.domain.Result;
+import com.glq1218.domain.ResponseResult;
 import com.glq1218.domain.entity.Article;
 import com.glq1218.domain.entity.Category;
 import com.glq1218.domain.vo.ArticleDetailVo;
@@ -14,7 +14,7 @@ import com.glq1218.domain.vo.PageVo;
 import com.glq1218.mapper.ArticleMapper;
 import com.glq1218.service.ArticleService;
 import com.glq1218.service.CategoryService;
-import com.glq1218.utils.BeanCopyUtils;
+import com.glq1218.util.BeanCopyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private CategoryService categoryService;
 
     @Override
-    public Result hotArticleList() {
+    public ResponseResult hotArticleList() {
         // 查询热门文章,封装成Result
         LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 必须是正式文章
@@ -54,11 +54,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         List<HotArticleVo> hotArticleVos = BeanCopyUtils.copyBeanList(articles, HotArticleVo.class);
 
-        return Result.success().data(hotArticleVos);
+        return ResponseResult.success(hotArticleVos);
     }
 
     @Override
-    public Result articleList(Integer pageNum, Integer pageSize, Long categoryId) {
+    public ResponseResult<?> articleList(Integer pageNum, Integer pageSize, Long categoryId) {
         // 查询条件
         LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 如果 有categoryId 就要 查询时和传入的相同
@@ -90,11 +90,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<ArticleListVo> articleListVos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
 
         PageVo pageVo = new PageVo(articleListVos, page.getTotal());
-        return Result.success().data(pageVo);
+        return ResponseResult.success(pageVo);
     }
 
     @Override
-    public Result getArticleDetail(Long id) {
+    public ResponseResult<?> getArticleDetail(Long id) {
         // 根据id查询文章
         Article article = getById(id);
         // 状换成vo
@@ -102,11 +102,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 根据分类id查询分类名
         Long categoryId = articleDetailVo.getCategoryId();
         Category category = categoryService.getById(categoryId);
-        if (category!=null){
+        if (category != null) {
             articleDetailVo.setCategoryName(category.getName());
         }
         // 封装响应返回
-        return Result.success().data(articleDetailVo);
+        return ResponseResult.success(articleDetailVo);
     }
 }
 

@@ -1,7 +1,7 @@
 package com.glq1218.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.glq1218.domain.Result;
+import com.glq1218.domain.ResponseResult;
 import com.glq1218.domain.entity.Article;
 
 /**
@@ -12,10 +12,10 @@ import com.glq1218.domain.entity.Article;
  */
 public interface ArticleService extends IService<Article> {
 
-    Result hotArticleList();
+    ResponseResult<?> hotArticleList();
 
-    Result articleList(Integer pageNum, Integer pageSize, Long categoryId);
+    ResponseResult<?> articleList(Integer pageNum, Integer pageSize, Long categoryId);
 
-    Result getArticleDetail(Long id);
+    ResponseResult<?> getArticleDetail(Long id);
 }
 

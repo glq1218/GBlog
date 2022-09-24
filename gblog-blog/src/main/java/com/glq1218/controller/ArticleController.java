@@ -1,7 +1,7 @@
 package com.glq1218.controller;
 
 
-import com.glq1218.domain.Result;
+import com.glq1218.domain.ResponseResult;
 import com.glq1218.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ public class ArticleController {
      * 热门文章列表
      */
     @GetMapping("/hotArticleList")
-    public Result hotArticleList() {
+    public ResponseResult<?> hotArticleList() {
         return articleService.hotArticleList();
     }
 
@@ -37,7 +37,7 @@ public class ArticleController {
      * 文章列表
      */
     @GetMapping("/articleList")
-    public Result articleList(Integer pageNum, Integer pageSize, Long categoryId) {
+    public ResponseResult<?> articleList(Integer pageNum, Integer pageSize, Long categoryId) {
         return articleService.articleList(pageNum, pageSize, categoryId);
     }
 
@@ -45,7 +45,7 @@ public class ArticleController {
      * 文章详情
      */
     @GetMapping("/{id}")
-    public Result getArticleDetail(@PathVariable("id") Long id) {
+    public ResponseResult<?> getArticleDetail(@PathVariable("id") Long id) {
         return articleService.getArticleDetail(id);
     }
 }

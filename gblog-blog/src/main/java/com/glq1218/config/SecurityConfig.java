@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .antMatchers("/login").anonymous()
                 // 需要登录才可以访问
                 .antMatchers("/logout").authenticated()
-                .antMatchers("/article/hotArticleList").authenticated()
+                .antMatchers("/user/userInfo").authenticated()
                 // 除上面外的所有请求全部不需要鉴权认证
                 .anyRequest().permitAll();
 

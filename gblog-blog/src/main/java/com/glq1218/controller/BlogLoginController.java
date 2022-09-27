@@ -1,5 +1,6 @@
 package com.glq1218.controller;
 
+import com.glq1218.annotation.SystemLog;
 import com.glq1218.domain.ResponseResult;
 import com.glq1218.domain.entity.User;
 import com.glq1218.enums.ExceptionEnum;
@@ -18,6 +19,7 @@ public class BlogLoginController {
     private BlogLoginService blogLoginService;
 
     @PostMapping("/login")
+    @SystemLog(businessName = "用户登录")
     public ResponseResult<?> login(@RequestBody User user) {
         if (!StringUtils.hasText(user.getUsername())) {
             throw new SystemException(ExceptionEnum.REQUIRE_USERNAME);

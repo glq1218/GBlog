@@ -62,10 +62,11 @@ public class ResponseResult<T> implements Serializable {
     }
 
     public static <T> ResponseResult<?> success() {
-        return new ResponseResult<>(true, 200,"success");
+        return new ResponseResult<>(true, 200, "success");
     }
+
     public static <T> ResponseResult<?> success(T data) {
-        return new ResponseResult<>(true, 200,"success", data);
+        return new ResponseResult<>(true, 200, "success", data);
     }
 
     public static <T> ResponseResult<?> success(String msg, T data) {
@@ -78,6 +79,10 @@ public class ResponseResult<T> implements Serializable {
 
     public static <T> ResponseResult<?> error(int code, String msg) {
         return new ResponseResult<>(false, code, msg);
+    }
+
+    public static <T> ResponseResult<?> error(String msg) {
+        return new ResponseResult<>(false, 999, msg);
     }
 
     public static <T> ResponseResult<?> error(ExceptionEnum exceptionEnum) {

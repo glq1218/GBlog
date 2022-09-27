@@ -27,7 +27,13 @@ public enum ExceptionEnum {
     USER_ACCOUNT_LOGIN_IN_OTHER_PLACE(1013, "账号超时或账号在另一个地方登陆"),
     TOKEN_VALIDATE_FAILED(1014, "Token令牌验证失败"),
     LIKE_ALREADY_GICED(1015, "请勿重复点赞"),
-    REQUIRE_USERNAME(1016,"用户名不能为空"),
+    REQUIRE_USERNAME(1016, "用户名不能为空"),
+    CONTENT_NOT_NULL(1017, "评论内容不能为空"),
+    USERNAME_NOT_NULL(508, "用户名不能为空"),
+    NICKNAME_NOT_NULL(509, "昵称不能为空"),
+    PASSWORD_NOT_NULL(510, "密码不能为空"),
+    EMAIL_NOT_NULL(511, "邮箱不能为空"),
+    EMAIL_EXISTED(512, "邮箱已存在"),
 
     /**
      * 20XX 表示服务器错误

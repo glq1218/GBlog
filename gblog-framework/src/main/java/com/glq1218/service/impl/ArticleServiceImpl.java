@@ -15,13 +15,13 @@ import com.glq1218.mapper.ArticleMapper;
 import com.glq1218.service.ArticleService;
 import com.glq1218.service.CategoryService;
 import com.glq1218.util.BeanCopyUtils;
+import com.glq1218.util.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * (Article)表服务实现类
@@ -37,8 +37,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Lazy
     private CategoryService categoryService;
 
+    @Autowired
+    private RedisCache redisCache;
+
     @Override
-    public ResponseResult hotArticleList() {
+    public ResponseResult<?> hotArticleList() {
         // 查询热门文章,封装成Result
         LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 必须是正式文章
@@ -51,6 +54,12 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         page(page, lambdaQueryWrapper);
 
         List<Article> articles = page.getRecords();
+
+        for (Article article : articles) {
+            // 从redis中查询浏览量
+            Integer viewCount = redisCache.getCacheMapValue("article:viewCount", article.getId().toString());
+            article.setViewCount(viewCount.longValue());
+        }
 
         List<HotArticleVo> hotArticleVos = BeanCopyUtils.copyBeanList(articles, HotArticleVo.class);
 
@@ -73,21 +82,26 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         // 查询categoryName
         List<Article> articles = page.getRecords();
+
         // categoryId去查询categoryName进行设置
 
         // 循环
-        //for (Article article : articles) {
-        //    Category category = categoryService.getById(article.getCategoryId());
-        //    article.setCategoryName(category.getName());
-        //}
+        for (Article article : articles) {
+            Category category = categoryService.getById(article.getCategoryId());
+            article.setCategoryName(category.getName());
+            article.setCategoryId(category.getId());
+            // 从redis中查询浏览量
+            Integer viewCount = redisCache.getCacheMapValue("article:viewCount", article.getId().toString());
+            article.setViewCount(viewCount.longValue());
+        }
 
         //stream流
-        articles.stream()
-                .map(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
-                .collect(Collectors.toList());
+//        articles.stream()
+//                .map(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
+//                .collect(Collectors.toList());
 
         // 封装查询结果
-        List<ArticleListVo> articleListVos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
+        List<ArticleListVo> articleListVos = BeanCopyUtils.copyBeanList(articles, ArticleListVo.class);
 
         PageVo pageVo = new PageVo(articleListVos, page.getTotal());
         return ResponseResult.success(pageVo);
@@ -97,6 +111,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public ResponseResult<?> getArticleDetail(Long id) {
         // 根据id查询文章
         Article article = getById(id);
+        // 从redis中查询浏览量
+        Integer viewCount = redisCache.getCacheMapValue("article:viewCount", id.toString());
+        article.setViewCount(viewCount.longValue());
         // 状换成vo
         ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article, ArticleDetailVo.class);
         // 根据分类id查询分类名
@@ -107,6 +124,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         // 封装响应返回
         return ResponseResult.success(articleDetailVo);
+    }
+
+    @Override
+    public ResponseResult<?> updateViewCount(Long id) {
+        // 更新redis中对应id文章的浏览量
+        redisCache.incrementCacheMapValue("article:viewCount", id.toString(), 1);
+        return ResponseResult.success();
     }
 }
 

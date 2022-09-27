@@ -5,6 +5,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +23,12 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("g_article")
+//链式访问
 @Accessors(chain = true)
+@ApiModel(description = "文章实体类")
 public class Article {
     @TableId
+    @ApiModelProperty("主键id")
     private Long id;
     //标题
     private String title;
@@ -50,15 +55,21 @@ public class Article {
     private Long viewCount;
     //是否允许评论 1 是，0 否
     private String isComment;
-    
+
     private Long createBy;
-    
+
     private Date createTime;
-    
+
     private Long updateBy;
-    
+
     private Date updateTime;
     //删除标志（1 代表删除，0 代表未删除）
     private Integer delFlag;
+
+    public Article(Long id, long viewCount) {
+        this.id = id;
+        this.viewCount = viewCount;
+    }
+
 }
 

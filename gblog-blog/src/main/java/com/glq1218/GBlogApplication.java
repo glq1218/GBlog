@@ -3,6 +3,8 @@ package com.glq1218;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @Author: glq
@@ -11,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.glq1218.mapper")
+@EnableScheduling
+@EnableSwagger2
 public class GBlogApplication {
     public static void main(String[] args) {
         SpringApplication.run(GBlogApplication.class,args);

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glq1218.constants.SystemConstants;
 import com.glq1218.domain.ResponseResult;
+import com.glq1218.domain.dto.AddCommentDto;
 import com.glq1218.domain.entity.User;
 import com.glq1218.domain.vo.CommentVo;
 import com.glq1218.domain.vo.PageVo;
@@ -43,6 +44,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         lambdaQueryWrapper.eq(Comment::getRootId, SystemConstants.ROOT_ID);
         // 评论类型
         lambdaQueryWrapper.eq(Comment::getType, commentType);
+        // 按时间排序
+        lambdaQueryWrapper.orderByDesc(Comment::getCreateTime);
         // 分页查询
         Page<Comment> page = new Page<>(pageNum, pageSize);
         page(page, lambdaQueryWrapper);
@@ -59,11 +62,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public ResponseResult<?> addComment(Comment comment) {
+    public ResponseResult<?> addComment(AddCommentDto commentDto) {
         //评论内容不能为空
-        if (!StringUtils.hasText(comment.getContent())) {
+        if (!StringUtils.hasText(commentDto.getContent())) {
             throw new SystemException(ExceptionEnum.CONTENT_NOT_NULL);
         }
+        Comment comment = BeanCopyUtils.copyBean(commentDto, Comment.class);
         save(comment);
         return ResponseResult.success();
     }
@@ -94,7 +98,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         for (CommentVo commentVo : commentVoList) {
             // 通过createBy查询用户的昵称并赋值
             User user = userService.getById(commentVo.getCreateBy());
-            commentVo.setUsername(user.getUsername());
+            commentVo.setUsername(user.getNickname());
             commentVo.setAvatar(user.getAvatar());
             // 通过toCommentUserId查询用户的昵称并赋值
             User toCommentUser = userService.getById(commentVo.getToCommentUserId());

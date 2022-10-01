@@ -5,6 +5,8 @@ import com.glq1218.domain.entity.LoginUser;
 import com.glq1218.domain.entity.User;
 import com.glq1218.domain.vo.BlogLoginUserVo;
 import com.glq1218.domain.vo.UserInfoVo;
+import com.glq1218.enums.ExceptionEnum;
+import com.glq1218.exception.SystemException;
 import com.glq1218.service.BlogLoginService;
 import com.glq1218.util.BeanCopyUtils;
 import com.glq1218.util.JwtUtils;
@@ -59,7 +61,9 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         //解析获取id
         Long userId = loginUser.getUser().getId();
         // 删除redis中的用户信息
-        redisCache.deleteObject("login:"+userId);
+        if (!redisCache.deleteObject("login:" + userId)) {
+            throw new SystemException(ExceptionEnum.ERROR);
+        }
         return ResponseResult.success();
     }
 }

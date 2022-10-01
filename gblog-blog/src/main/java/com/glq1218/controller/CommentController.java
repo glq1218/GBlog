@@ -2,6 +2,7 @@ package com.glq1218.controller;
 
 import com.glq1218.constants.SystemConstants;
 import com.glq1218.domain.ResponseResult;
+import com.glq1218.domain.dto.AddCommentDto;
 import com.glq1218.domain.entity.Comment;
 import com.glq1218.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseResult<?> addComment(@RequestBody Comment comment) {
-        return commentService.addComment(comment);
+    public ResponseResult<?> addComment(@RequestBody AddCommentDto commentDto) {
+        return commentService.addComment(commentDto);
     }
 
     /**

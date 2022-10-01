@@ -22,13 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-/**
- * @Author: glq
- * @Data: 2022/9/22 下午4:48
- * @Description: <p>
- * OncePerRequestFilter 只走一次，请求前
- */
-
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired

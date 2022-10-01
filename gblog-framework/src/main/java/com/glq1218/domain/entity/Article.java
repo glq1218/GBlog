@@ -28,7 +28,7 @@ import lombok.experimental.Accessors;
 @ApiModel(description = "文章实体类")
 public class Article {
     @TableId
-    @ApiModelProperty("主键id")
+    @ApiModelProperty(notes = "主键id")
     private Long id;
     //标题
     private String title;

@@ -61,31 +61,31 @@ public class ResponseResult<T> implements Serializable {
         this.msg = exceptionEnum.getMsg();
     }
 
-    public static <T> ResponseResult<?> success() {
+    public static <T> ResponseResult<T> success() {
         return new ResponseResult<>(true, 200, "success");
     }
 
-    public static <T> ResponseResult<?> success(T data) {
+    public static <T> ResponseResult<T> success(T data) {
         return new ResponseResult<>(true, 200, "success", data);
     }
 
-    public static <T> ResponseResult<?> success(String msg, T data) {
+    public static <T> ResponseResult<T> success(String msg, T data) {
         return new ResponseResult<>(true, 200, msg, data);
     }
 
-    public static <T> ResponseResult<?> error(SystemException systemException) {
+    public static <T> ResponseResult<T> error(SystemException systemException) {
         return new ResponseResult<>(false, systemException.getCode(), systemException.getMsg());
     }
 
-    public static <T> ResponseResult<?> error(int code, String msg) {
+    public static <T> ResponseResult<T> error(int code, String msg) {
         return new ResponseResult<>(false, code, msg);
     }
 
-    public static <T> ResponseResult<?> error(String msg) {
+    public static <T> ResponseResult<T> error(String msg) {
         return new ResponseResult<>(false, 999, msg);
     }
 
-    public static <T> ResponseResult<?> error(ExceptionEnum exceptionEnum) {
+    public static <T> ResponseResult<T> error(ExceptionEnum exceptionEnum) {
         return new ResponseResult<>(false, exceptionEnum);
     }
 

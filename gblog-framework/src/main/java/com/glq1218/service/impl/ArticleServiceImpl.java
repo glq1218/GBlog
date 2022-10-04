@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glq1218.constants.SystemConstants;
 import com.glq1218.domain.ResponseResult;
+import com.glq1218.domain.dto.ArticleListDto;
 import com.glq1218.domain.entity.Article;
 import com.glq1218.domain.entity.Category;
 import com.glq1218.domain.vo.ArticleDetailVo;
@@ -19,7 +20,9 @@ import com.glq1218.util.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import java.util.Objects;
 
@@ -131,6 +134,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 更新redis中对应id文章的浏览量
         redisCache.incrementCacheMapValue("article:viewCount", id.toString(), 1);
         return ResponseResult.success();
+    }
+
+    @Override
+    public ResponseResult<PageVo> pageArticleList(Integer pageNum, Integer pageSize, ArticleListDto articleListDto) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(StringUtils.hasText(articleListDto.getTitle()), Article::getTitle, articleListDto.getTitle());
+        queryWrapper.like(StringUtils.hasText(articleListDto.getSummary()), Article::getSummary, articleListDto.getSummary());
+        Page<Article> page = new Page<>(pageNum, pageSize);
+        page(page,queryWrapper);
+        return ResponseResult.success(new PageVo(page.getRecords(), page.getTotal()));
     }
 }
 

@@ -47,7 +47,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String userId = claims.get("userId").toString();
 
         // 4. 封装Authentication
-        LoginUser loginUser = redisCache.getCacheObject("blog:login:" + userId);
+        LoginUser loginUser = redisCache.getCacheObject("admin:login:" + userId);
 
         if (Objects.isNull(loginUser)) {
             WebUtils.renderString(response, JSON.toJSONString(ResponseResult.error(ExceptionEnum.USER_NOT_LOGIN)));

@@ -1,0 +1,54 @@
+server:
+  port: 8888
+spring:
+  # swagger 配置，否则不能打开
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  datasource:
+    #    url: jdbc:mysql://localhost:3306/g_blog?characterEncoding=utf-8
+    url: jdbc:mysql://bj-cdb-rgovulxo.sql.tencentcdb.com:60172/g_blog?characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 4265474264@Root
+
+  #redis配置
+  redis:
+    #服务器地址
+    host: localhost
+    #端口
+    port: 6379
+    #redis密码
+    password:
+    #数据库，默认是0
+    database: 0
+    #超时时间
+    timeout: 1209600000ms
+    lettuce:
+      pool:
+        #最大链接数，默认8
+        max-active: 8
+        #最大连接阻塞等待时间，默认-1
+        max-wait: 10000ms
+        #最大空闲连接，默认8
+        max-idle: 200
+        #最小空闲连接，默认0
+        min-idle: 5
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 5MB
+# mybatis-plus配置
+mybatis-plus:
+  configuration:
+    # 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: auto
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+

@@ -2,8 +2,11 @@ package com.glq1218.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.glq1218.domain.ResponseResult;
+import com.glq1218.domain.dto.UserListDto;
+import com.glq1218.domain.vo.PageVo;
 import com.glq1218.domain.vo.UserInfoVo;
 import com.glq1218.enums.ExceptionEnum;
 import com.glq1218.exception.SystemException;
@@ -70,6 +73,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //存入数据库
         save(user);
         return ResponseResult.success();
+    }
+
+    @Override
+    public ResponseResult<PageVo> pageUserList(Integer pageNum, Integer pageSize, UserListDto userListDto) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(StringUtils.hasText(userListDto.getUsername()), User::getUsername, userListDto.getUsername());
+        queryWrapper.eq(StringUtils.hasText(userListDto.getPhoneNumber()), User::getPhoneNumber, userListDto.getPhoneNumber());
+        queryWrapper.eq(StringUtils.hasText(userListDto.getStatus()), User::getStatus, userListDto.getStatus());
+        Page<User> page = new Page<>(pageNum, pageSize);
+        page(page, queryWrapper);
+        return ResponseResult.success(new PageVo(page.getRecords(), page.getTotal()));
     }
 
 

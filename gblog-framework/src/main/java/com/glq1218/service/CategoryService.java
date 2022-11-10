@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.glq1218.domain.ResponseResult;
 import com.glq1218.domain.dto.CategoryListDto;
 import com.glq1218.domain.entity.Category;
+import com.glq1218.domain.vo.CategoryVo;
 import com.glq1218.domain.vo.PageVo;
+
+import java.util.List;
 
 /**
  * (Category)表服务接口
@@ -17,5 +20,7 @@ public interface CategoryService extends IService<Category> {
     ResponseResult<?> getCategoryList();
 
     ResponseResult<PageVo> pageCategoryList(Integer pageNum, Integer pageSize, CategoryListDto categoryListDto);
+
+    ResponseResult<List<CategoryVo>> listAllCategory();
 }
 

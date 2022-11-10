@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 @Service
@@ -52,7 +53,6 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         BlogLoginUserVo vo = new BlogLoginUserVo(token, userInfoVo);
         return ResponseResult.success(vo);
     }
-
     @Override
     public ResponseResult<?> logout() {
         // 获取token

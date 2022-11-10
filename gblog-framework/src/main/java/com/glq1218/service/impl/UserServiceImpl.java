@@ -21,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 /**
  * 用户表(User)表服务实现类
  *
@@ -84,6 +86,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Page<User> page = new Page<>(pageNum, pageSize);
         page(page, queryWrapper);
         return ResponseResult.success(new PageVo(page.getRecords(), page.getTotal()));
+    }
+
+    @Override
+    public ResponseResult<?> delete(List<Long> ids) {
+        if (removeByIds(ids)) {
+            return ResponseResult.success();
+        }
+        return ResponseResult.error("删除失败");
     }
 
 

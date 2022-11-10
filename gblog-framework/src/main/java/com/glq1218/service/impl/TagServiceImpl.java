@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 标签(Tag)表服务实现类
@@ -32,6 +31,42 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         Page<Tag> page = new Page<>(pageNum, pageSize);
         page(page, queryWrapper);
         return ResponseResult.success(new PageVo(page.getRecords(), page.getTotal()));
+    }
+
+    @Override
+    public ResponseResult<?> add(Tag tag) {
+        if (!save(tag)) {
+            return ResponseResult.error("添加失败");
+        }
+        return ResponseResult.success();
+    }
+
+    @Override
+    public ResponseResult<?> delete(List<Long> ids) {
+        if (removeByIds(ids)) {
+            return ResponseResult.success();
+        }
+        return ResponseResult.error("删除失败");
+    }
+
+    @Override
+    public ResponseResult<Tag> get(Long id) {
+        Tag tag = getById(id);
+        return ResponseResult.success(tag);
+    }
+
+    @Override
+    public ResponseResult<?> edit(Tag tag) {
+        if (updateById(tag)) {
+            return ResponseResult.success();
+        }
+        return ResponseResult.error("修改失败");
+    }
+
+    @Override
+    public ResponseResult<List<Tag>> listAllTag() {
+        List<Tag> list = list();
+        return ResponseResult.success(list);
     }
 }
 

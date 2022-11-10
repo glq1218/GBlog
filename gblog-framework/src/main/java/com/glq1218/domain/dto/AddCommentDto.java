@@ -8,13 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "添加评论dto")
-public class AddCommentDto {
+public class AddCommentDto implements Serializable {
     private Long id;
     //评论类型：0 文章评论 1 友链评论
     @ApiModelProperty(notes = "评论类型：0 文章评论 1 友链评论")

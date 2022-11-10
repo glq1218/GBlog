@@ -68,5 +68,5 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
-  mapper-locations: classpath*:/mapper
+  mapper-locations: classpath*:/mapper/*Mapper.xml
 

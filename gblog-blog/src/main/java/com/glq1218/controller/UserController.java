@@ -1,6 +1,7 @@
 package com.glq1218.controller;
 
 import com.glq1218.domain.ResponseResult;
+import com.glq1218.domain.dto.UserInfoDto;
 import com.glq1218.domain.entity.User;
 import com.glq1218.domain.vo.UserInfoVo;
 import com.glq1218.service.UserService;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @PutMapping("/userInfo")
-    public ResponseResult<?> userInfo(@RequestBody UserInfoVo userInfoVo){
+    public ResponseResult<?> userInfo(@RequestBody UserInfoDto userInfoDto){
 //        return userService.userInfo();
     return ResponseResult.error("我没写这个功能,你改个屁呢");
     }

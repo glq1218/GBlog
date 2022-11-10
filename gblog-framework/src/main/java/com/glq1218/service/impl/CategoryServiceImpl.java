@@ -65,5 +65,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         page(page);
         return ResponseResult.success(new PageVo(page.getRecords(), page.getTotal()));
     }
+
+    @Override
+    public ResponseResult<List<CategoryVo>> listAllCategory() {
+        List<Category> categories = list();
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(categories, CategoryVo.class);
+        return ResponseResult.success(categoryVos);
+    }
 }
 
